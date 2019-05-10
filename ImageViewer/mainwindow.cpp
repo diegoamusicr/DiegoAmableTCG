@@ -76,11 +76,25 @@ void MainWindow::UpdateHistograms(Mat &M)
     this->UpdateImageLabel(ui->labelRH, this->Mat2QImage(histImageR));
 }
 
-void MainWindow::TransformImage(Mat & src, Mat & dest, double a, int b)
+void MainWindow::TransformLinear(Mat & src, Mat & dest, double a, int b)
 {
     dest = src * a + Scalar(b, b, b);
     threshold(dest, dest, 255, 255, CV_THRESH_TRUNC);
     dest = max(dest, 0);
+}
+
+void MainWindow::TransformGamma(Mat & src, Mat & dest, double gamma)
+{
+    Mat tmp;
+    src.convertTo(tmp, CV_32FC3);
+    pow(tmp/255, 1/gamma, tmp);
+    tmp = tmp * 255;
+    tmp.convertTo(dest, CV_8UC3);
+}
+
+void MainWindow::InvertColor(Mat & src, Mat & dest)
+{
+    dest = Scalar(255, 255, 255) - src;
 }
 
 void MainWindow::on_actionOpen_triggered()
@@ -95,13 +109,15 @@ void MainWindow::on_actionOpen_triggered()
     this->UpdateHistograms(this->imageOriginal);
     ui->brilloSlider->setValue(0);
     ui->contSlider->setValue(100);
+    ui->sliderGamma->setValue(100);
 }
 
 void MainWindow::on_brilloSlider_valueChanged(int value)
 {
     if (this->imageOriginal.data)
     {
-        this->TransformImage(this->imageOriginal, this->imageEdited, ui->contSlider->value()/100.0, value);
+        this->TransformLinear(this->imageOriginal, this->imageEdited, ui->contSlider->value()/100.0, value);
+        this->TransformGamma(this->imageEdited, this->imageEdited, ui->sliderGamma->value()/100.0);
         this->UpdateImageLabel(ui->imgLabel, this->Mat2QImage(this->imageEdited));
         this->UpdateHistograms(this->imageEdited);
     }
@@ -111,7 +127,8 @@ void MainWindow::on_contSlider_valueChanged(int value)
 {
     if (this->imageOriginal.data)
     {
-        this->TransformImage(this->imageOriginal, this->imageEdited, value/100.0, ui->brilloSlider->value());
+        this->TransformLinear(this->imageOriginal, this->imageEdited, value/100.0, ui->brilloSlider->value());
+        this->TransformGamma(this->imageEdited, this->imageEdited, ui->sliderGamma->value()/100.0);
         this->UpdateImageLabel(ui->imgLabel, this->Mat2QImage(this->imageEdited));
         this->UpdateHistograms(this->imageEdited);
     }
@@ -123,5 +140,28 @@ void MainWindow::on_actionSave_triggered()
     {
         QString savefile = QFileDialog::getSaveFileName(this, "Save File", "", "Image files (*.jpg *.jpeg *.png *.gif)");
         imwrite(savefile.toStdString(), this->imageEdited);
+    }
+}
+
+void MainWindow::on_sliderGamma_valueChanged(int value)
+{
+    if (this->imageOriginal.data)
+    {
+        this->TransformLinear(this->imageOriginal, this->imageEdited, ui->contSlider->value()/100.0, ui->brilloSlider->value());
+        this->TransformGamma(this->imageEdited, this->imageEdited, value/100.0);
+        this->UpdateImageLabel(ui->imgLabel, this->Mat2QImage(this->imageEdited));
+        this->UpdateHistograms(this->imageEdited);
+    }
+}
+
+void MainWindow::on_actionInvertir_color_triggered()
+{
+    if (this->imageOriginal.data)
+    {
+        this->InvertColor(this->imageOriginal, this->imageOriginal);
+        this->TransformLinear(this->imageOriginal, this->imageEdited, ui->contSlider->value()/100.0, ui->brilloSlider->value());
+        this->TransformGamma(this->imageEdited, this->imageEdited, ui->sliderGamma->value()/100.0);
+        this->UpdateImageLabel(ui->imgLabel, this->Mat2QImage(this->imageEdited));
+        this->UpdateHistograms(this->imageEdited);
     }
 }

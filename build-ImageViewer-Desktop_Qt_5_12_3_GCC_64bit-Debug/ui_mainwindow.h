@@ -31,6 +31,7 @@ class Ui_MainWindow
 public:
     QAction *actionOpen;
     QAction *actionSave;
+    QAction *actionInvertir_color;
     QWidget *centralWidget;
     QHBoxLayout *horizontalLayout;
     QLabel *imgLabel;
@@ -41,6 +42,9 @@ public:
     QVBoxLayout *verticalLayout_3;
     QLabel *labelCont;
     QSlider *contSlider;
+    QVBoxLayout *verticalLayout_5;
+    QLabel *labelGamma;
+    QSlider *sliderGamma;
     QSpacerItem *verticalSpacer;
     QVBoxLayout *verticalLayout;
     QLabel *labelRH;
@@ -48,6 +52,7 @@ public:
     QLabel *labelBH;
     QMenuBar *menuBar;
     QMenu *menuFile;
+    QMenu *menuEdici_n;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -60,6 +65,8 @@ public:
         actionOpen->setObjectName(QString::fromUtf8("actionOpen"));
         actionSave = new QAction(MainWindow);
         actionSave->setObjectName(QString::fromUtf8("actionSave"));
+        actionInvertir_color = new QAction(MainWindow);
+        actionInvertir_color->setObjectName(QString::fromUtf8("actionInvertir_color"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         horizontalLayout = new QHBoxLayout(centralWidget);
@@ -123,6 +130,26 @@ public:
 
         verticalLayout_4->addLayout(verticalLayout_3);
 
+        verticalLayout_5 = new QVBoxLayout();
+        verticalLayout_5->setSpacing(6);
+        verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
+        labelGamma = new QLabel(centralWidget);
+        labelGamma->setObjectName(QString::fromUtf8("labelGamma"));
+
+        verticalLayout_5->addWidget(labelGamma);
+
+        sliderGamma = new QSlider(centralWidget);
+        sliderGamma->setObjectName(QString::fromUtf8("sliderGamma"));
+        sliderGamma->setMinimum(1);
+        sliderGamma->setMaximum(200);
+        sliderGamma->setValue(100);
+        sliderGamma->setOrientation(Qt::Horizontal);
+
+        verticalLayout_5->addWidget(sliderGamma);
+
+
+        verticalLayout_4->addLayout(verticalLayout_5);
+
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout_4->addItem(verticalSpacer);
@@ -137,6 +164,7 @@ public:
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(labelRH->sizePolicy().hasHeightForWidth());
         labelRH->setSizePolicy(sizePolicy1);
+        labelRH->setMinimumSize(QSize(0, 180));
         labelRH->setFrameShape(QFrame::NoFrame);
         labelRH->setAlignment(Qt::AlignCenter);
 
@@ -146,6 +174,7 @@ public:
         labelGH->setObjectName(QString::fromUtf8("labelGH"));
         sizePolicy1.setHeightForWidth(labelGH->sizePolicy().hasHeightForWidth());
         labelGH->setSizePolicy(sizePolicy1);
+        labelGH->setMinimumSize(QSize(0, 180));
         labelGH->setAlignment(Qt::AlignCenter);
 
         verticalLayout->addWidget(labelGH);
@@ -154,6 +183,7 @@ public:
         labelBH->setObjectName(QString::fromUtf8("labelBH"));
         sizePolicy1.setHeightForWidth(labelBH->sizePolicy().hasHeightForWidth());
         labelBH->setSizePolicy(sizePolicy1);
+        labelBH->setMinimumSize(QSize(0, 180));
         labelBH->setAlignment(Qt::AlignCenter);
 
         verticalLayout->addWidget(labelBH);
@@ -172,6 +202,8 @@ public:
         menuBar->setGeometry(QRect(0, 0, 729, 22));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
+        menuEdici_n = new QMenu(menuBar);
+        menuEdici_n->setObjectName(QString::fromUtf8("menuEdici_n"));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
@@ -181,8 +213,10 @@ public:
         MainWindow->setStatusBar(statusBar);
 
         menuBar->addAction(menuFile->menuAction());
+        menuBar->addAction(menuEdici_n->menuAction());
         menuFile->addAction(actionOpen);
         menuFile->addAction(actionSave);
+        menuEdici_n->addAction(actionInvertir_color);
 
         retranslateUi(MainWindow);
 
@@ -192,24 +226,27 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "ImageViewer", nullptr));
-        actionOpen->setText(QApplication::translate("MainWindow", "Open...", nullptr));
+        actionOpen->setText(QApplication::translate("MainWindow", "Abrir...", nullptr));
 #ifndef QT_NO_TOOLTIP
         actionOpen->setToolTip(QApplication::translate("MainWindow", "Open File", nullptr));
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_SHORTCUT
         actionOpen->setShortcut(QApplication::translate("MainWindow", "Ctrl+O", nullptr));
 #endif // QT_NO_SHORTCUT
-        actionSave->setText(QApplication::translate("MainWindow", "Save", nullptr));
+        actionSave->setText(QApplication::translate("MainWindow", "Guardar como...", nullptr));
 #ifndef QT_NO_SHORTCUT
         actionSave->setShortcut(QApplication::translate("MainWindow", "Ctrl+S", nullptr));
 #endif // QT_NO_SHORTCUT
+        actionInvertir_color->setText(QApplication::translate("MainWindow", "Invertir color", nullptr));
         imgLabel->setText(QString());
         labelBrillo->setText(QApplication::translate("MainWindow", "Brillo", nullptr));
         labelCont->setText(QApplication::translate("MainWindow", "Contraste", nullptr));
+        labelGamma->setText(QApplication::translate("MainWindow", "Gamma", nullptr));
         labelRH->setText(QString());
         labelGH->setText(QString());
         labelBH->setText(QString());
-        menuFile->setTitle(QApplication::translate("MainWindow", "File", nullptr));
+        menuFile->setTitle(QApplication::translate("MainWindow", "Archivo", nullptr));
+        menuEdici_n->setTitle(QApplication::translate("MainWindow", "Imagen", nullptr));
     } // retranslateUi
 
 };

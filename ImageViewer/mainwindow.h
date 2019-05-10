@@ -32,7 +32,9 @@ public:
     QImage Mat2QImage(Mat&);
     void UpdateImageLabel(QLabel*, QImage);
     void UpdateHistograms(Mat&);
-    void TransformImage(Mat&, Mat &, double, int);
+    void TransformLinear(Mat&, Mat&, double, int);
+    void TransformGamma(Mat&, Mat&, double);
+    void InvertColor(Mat&, Mat&);
 
 private slots:
     void on_actionOpen_triggered();
@@ -42,6 +44,10 @@ private slots:
     void on_contSlider_valueChanged(int value);
 
     void on_actionSave_triggered();
+
+    void on_sliderGamma_valueChanged(int value);
+
+    void on_actionInvertir_color_triggered();
 
 private:
     Ui::MainWindow *ui;
