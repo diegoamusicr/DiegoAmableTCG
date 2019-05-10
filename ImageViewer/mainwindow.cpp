@@ -18,6 +18,14 @@ QImage MainWindow::Mat2QImage(Mat &M)
     return QImage(M.data, M.cols, M.rows, M.step, QImage::Format_RGB888).rgbSwapped();
 }
 
+void MainWindow::CalculateUpdateImage()
+{
+    this->TransformLinear(this->imageOriginal, this->imageEdited, ui->contSlider->value()/100.0, ui->brilloSlider->value());
+    this->TransformGamma(this->imageEdited, this->imageEdited, ui->sliderGamma->value()/100.0);
+    this->UpdateImageLabel(ui->imgLabel, this->Mat2QImage(this->imageEdited));
+    this->UpdateHistograms(this->imageEdited);
+}
+
 void MainWindow::UpdateImageLabel(QLabel * label, QImage img)
 {
     label->setPixmap(QPixmap::fromImage(img));
@@ -112,28 +120,6 @@ void MainWindow::on_actionOpen_triggered()
     ui->sliderGamma->setValue(100);
 }
 
-void MainWindow::on_brilloSlider_valueChanged(int value)
-{
-    if (this->imageOriginal.data)
-    {
-        this->TransformLinear(this->imageOriginal, this->imageEdited, ui->contSlider->value()/100.0, value);
-        this->TransformGamma(this->imageEdited, this->imageEdited, ui->sliderGamma->value()/100.0);
-        this->UpdateImageLabel(ui->imgLabel, this->Mat2QImage(this->imageEdited));
-        this->UpdateHistograms(this->imageEdited);
-    }
-}
-
-void MainWindow::on_contSlider_valueChanged(int value)
-{
-    if (this->imageOriginal.data)
-    {
-        this->TransformLinear(this->imageOriginal, this->imageEdited, value/100.0, ui->brilloSlider->value());
-        this->TransformGamma(this->imageEdited, this->imageEdited, ui->sliderGamma->value()/100.0);
-        this->UpdateImageLabel(ui->imgLabel, this->Mat2QImage(this->imageEdited));
-        this->UpdateHistograms(this->imageEdited);
-    }
-}
-
 void MainWindow::on_actionSave_triggered()
 {
     if (this->imageEdited.data)
@@ -143,14 +129,27 @@ void MainWindow::on_actionSave_triggered()
     }
 }
 
+void MainWindow::on_brilloSlider_valueChanged(int value)
+{
+    if (this->imageOriginal.data)
+    {
+        this->CalculateUpdateImage();
+    }
+}
+
+void MainWindow::on_contSlider_valueChanged(int value)
+{
+    if (this->imageOriginal.data)
+    {
+        this->CalculateUpdateImage();
+    }
+}
+
 void MainWindow::on_sliderGamma_valueChanged(int value)
 {
     if (this->imageOriginal.data)
     {
-        this->TransformLinear(this->imageOriginal, this->imageEdited, ui->contSlider->value()/100.0, ui->brilloSlider->value());
-        this->TransformGamma(this->imageEdited, this->imageEdited, value/100.0);
-        this->UpdateImageLabel(ui->imgLabel, this->Mat2QImage(this->imageEdited));
-        this->UpdateHistograms(this->imageEdited);
+        this->CalculateUpdateImage();
     }
 }
 
@@ -159,9 +158,12 @@ void MainWindow::on_actionInvertir_color_triggered()
     if (this->imageOriginal.data)
     {
         this->InvertColor(this->imageOriginal, this->imageOriginal);
-        this->TransformLinear(this->imageOriginal, this->imageEdited, ui->contSlider->value()/100.0, ui->brilloSlider->value());
-        this->TransformGamma(this->imageEdited, this->imageEdited, ui->sliderGamma->value()/100.0);
-        this->UpdateImageLabel(ui->imgLabel, this->Mat2QImage(this->imageEdited));
-        this->UpdateHistograms(this->imageEdited);
+        this->CalculateUpdateImage();
     }
+}
+
+void MainWindow::on_actionConvolucion_triggered()
+{
+    this->ConvDiag = new ConvDialog(this);
+    this->ConvDiag->exec();
 }

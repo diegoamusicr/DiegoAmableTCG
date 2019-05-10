@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>729</width>
-    <height>477</height>
+    <height>789</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -234,6 +234,7 @@
      <string>Imagen</string>
     </property>
     <addaction name="actionInvertir_color"/>
+    <addaction name="actionConvolucion"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdici_n"/>
@@ -269,6 +270,11 @@
   <action name="actionInvertir_color">
    <property name="text">
     <string>Invertir color</string>
+   </property>
+  </action>
+  <action name="actionConvolucion">
+   <property name="text">
+    <string>Convolución...</string>
    </property>
   </action>
  </widget>

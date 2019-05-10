@@ -32,6 +32,7 @@ public:
     QAction *actionOpen;
     QAction *actionSave;
     QAction *actionInvertir_color;
+    QAction *actionConvolucion;
     QWidget *centralWidget;
     QHBoxLayout *horizontalLayout;
     QLabel *imgLabel;
@@ -60,13 +61,15 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(729, 477);
+        MainWindow->resize(729, 789);
         actionOpen = new QAction(MainWindow);
         actionOpen->setObjectName(QString::fromUtf8("actionOpen"));
         actionSave = new QAction(MainWindow);
         actionSave->setObjectName(QString::fromUtf8("actionSave"));
         actionInvertir_color = new QAction(MainWindow);
         actionInvertir_color->setObjectName(QString::fromUtf8("actionInvertir_color"));
+        actionConvolucion = new QAction(MainWindow);
+        actionConvolucion->setObjectName(QString::fromUtf8("actionConvolucion"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         horizontalLayout = new QHBoxLayout(centralWidget);
@@ -217,6 +220,7 @@ public:
         menuFile->addAction(actionOpen);
         menuFile->addAction(actionSave);
         menuEdici_n->addAction(actionInvertir_color);
+        menuEdici_n->addAction(actionConvolucion);
 
         retranslateUi(MainWindow);
 
@@ -238,6 +242,7 @@ public:
         actionSave->setShortcut(QApplication::translate("MainWindow", "Ctrl+S", nullptr));
 #endif // QT_NO_SHORTCUT
         actionInvertir_color->setText(QApplication::translate("MainWindow", "Invertir color", nullptr));
+        actionConvolucion->setText(QApplication::translate("MainWindow", "Convoluci\303\263n...", nullptr));
         imgLabel->setText(QString());
         labelBrillo->setText(QApplication::translate("MainWindow", "Brillo", nullptr));
         labelCont->setText(QApplication::translate("MainWindow", "Contraste", nullptr));

@@ -44,13 +44,16 @@ LIBS += -lopencv_videostab
 CONFIG += c++11
 
 SOURCES += \
+        convdialog.cpp \
         main.cpp \
         mainwindow.cpp
 
 HEADERS += \
+        convdialog.h \
         mainwindow.h
 
 FORMS += \
+        convdialog.ui \
         mainwindow.ui
 
 # Default rules for deployment.
