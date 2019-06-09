@@ -105,14 +105,48 @@ void MainWindow::InvertColor(Mat & src, Mat & dest)
     dest = Scalar(255, 255, 255) - src;
 }
 
+void MainWindow::Convolution(Mat & mask, int centerRow, int centerColumn)
+{
+    Mat tmp;
+    Mat *src = &(this->imageEdited);
+    Mat dest(src->rows, src->cols, CV_8UC3);
+    int top = centerRow;
+    int bottom = mask.rows - top - 1;
+    int left = centerColumn;
+    int right = mask.cols - left - 1;
+    this->AddPadding(*src, tmp, top, bottom, left, right);
+    for (int i=top; i < src->rows+top; i++)
+    {
+        for (int j=left; j < src->cols+left; j++)
+        {
+            //
+        }
+    }
+}
+
+void MainWindow::AddPadding(Mat & src, Mat & dest, int top, int bottom, int left, int right)
+{
+    copyMakeBorder(src, dest, top, bottom, left, right, BORDER_REFLECT);
+}
+
+void MainWindow::EnableImageModifiers()
+{
+    ui->actionConvolucion->setEnabled(true);
+    ui->actionInvertir_color->setEnabled(true);
+    ui->actionTransformaci_n_geom_trica->setEnabled(true);
+    ui->actionSave->setEnabled(true);
+}
+
 void MainWindow::on_actionOpen_triggered()
 {
     this->filename = QFileDialog::getOpenFileName(this, "Open File", "", "Image files (*.jpg *.jpeg *.png *.gif)");
     this->imageOriginal = imread(this->filename.toStdString(), CV_LOAD_IMAGE_COLOR);   // Read the file
     if(!this->imageOriginal.data)                              // Check for invalid input
     {
-        cout <<  "Could not open or find the image" << std::endl ;
+        cout <<  "Could not open or find the image" << std::endl;
+        return;
     }
+    this->EnableImageModifiers();
     this->UpdateImageLabel(ui->imgLabel, this->Mat2QImage(this->imageOriginal));
     this->UpdateHistograms(this->imageOriginal);
     ui->brilloSlider->setValue(0);
@@ -166,4 +200,10 @@ void MainWindow::on_actionConvolucion_triggered()
 {
     this->ConvDiag = new ConvDialog(this);
     this->ConvDiag->exec();
+}
+
+void MainWindow::on_actionTransformaci_n_geom_trica_triggered()
+{
+    this->TransDiag = new TransDialog(this, ui->imgLabel);
+    this->TransDiag->exec();
 }

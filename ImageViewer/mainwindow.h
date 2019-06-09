@@ -6,16 +6,11 @@
 #include <QtGui>
 #include <QFile>
 #include <QFileDialog>
-#include <QLabel>
 
 #include <iostream>
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/imgproc.hpp>
 
 #include "convdialog.h"
+#include "transdialog.h"
 
 using namespace cv;
 using namespace std;
@@ -38,6 +33,9 @@ public:
     void TransformLinear(Mat&, Mat&, double, int);
     void TransformGamma(Mat&, Mat&, double);
     void InvertColor(Mat&, Mat&);
+    void Convolution(Mat&, int, int);
+    void AddPadding(Mat&, Mat&, int, int, int, int);
+    void EnableImageModifiers();
 
 private slots:
     void on_actionOpen_triggered();
@@ -54,9 +52,12 @@ private slots:
 
     void on_actionConvolucion_triggered();
 
+    void on_actionTransformaci_n_geom_trica_triggered();
+
 private:
     Ui::MainWindow *ui;
     ConvDialog *ConvDiag;
+    TransDialog *TransDiag;
     QString filename;
     Mat imageOriginal;
     Mat imageEdited;

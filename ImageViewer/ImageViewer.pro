@@ -23,6 +23,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 INCLUDEPATH += /usr/local/include
+
 LIBS += -L/usr/local/lib
 LIBS += -lopencv_calib3d
 LIBS += -lopencv_core
@@ -46,17 +47,37 @@ CONFIG += c++11
 SOURCES += \
         convdialog.cpp \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        meshellipse.cpp \
+        meshscene.cpp \
+        transdialog.cpp
 
 HEADERS += \
         convdialog.h \
-        mainwindow.h
+        mainwindow.h \
+        meshellipse.h \
+        meshscene.h \
+        transdialog.h
 
 FORMS += \
         convdialog.ui \
-        mainwindow.ui
+        mainwindow.ui \
+        transdialog.ui
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+#CUDA_SOURCES = cuda_code.cu
+
+CUDA_DIR = /usr/local/cuda-9.0
+#CUDA_ARCH = sm_50
+
+#INCLUDEPATH += $$CUDA_DIR/include
+LIBS += -L $$CUDA_DIR/lib64 -lcudart -lcuda
+
+#cuda.commands = $$CUDA_DIR/bin/nvcc -c -arch=$$CUDA_ARCH -o ${QMAKE_FILE_OUT} ${QMAKE_FILE_NAME}
+#cuda.dependency_type = TYPE_C
+#cuda.depend_command = $$CUDA_DIR/bin/nvcc -M ${QMAKE_FILE_NAME}
+#cuda.input = CUDA_SOURCES
+#cuda.output = ${QMAKE_FILE_BASE}_cuda.o
+#QMAKE_EXTRA_COMPILERS += cuda
+
+#DISTFILES += cuda_code.cu
+

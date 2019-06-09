@@ -235,6 +235,7 @@
     </property>
     <addaction name="actionInvertir_color"/>
     <addaction name="actionConvolucion"/>
+    <addaction name="actionTransformaci_n_geom_trica"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdici_n"/>
@@ -260,6 +261,9 @@
    </property>
   </action>
   <action name="actionSave">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Guardar como...</string>
    </property>
@@ -268,13 +272,27 @@
    </property>
   </action>
   <action name="actionInvertir_color">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Invertir color</string>
    </property>
   </action>
   <action name="actionConvolucion">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Convolución...</string>
+   </property>
+  </action>
+  <action name="actionTransformaci_n_geom_trica">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Transformación geométrica...</string>
    </property>
   </action>
  </widget>
